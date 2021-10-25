@@ -1,0 +1,526 @@
+leocheung@leocheung-CW65S:~/source/ikuai_gitsrc$ ls
+brctl  ip_command  iptables  jq  kernel  man_7_packet  man_7_raw  netdevice  netfilter  netlink2  paste  shell  sqlite3  tcpdump  test
+leocheung@leocheung-CW65S:~/source/ikuai_gitsrc$ mkdir gitsubmodul_test
+leocheung@leocheung-CW65S:~/source/ikuai_gitsrc$ cd gitsubmodul_test/
+leocheung@leocheung-CW65S:~/source/ikuai_gitsrc/gitsubmodul_test$ cd ..
+leocheung@leocheung-CW65S:~/source/ikuai_gitsrc$ rm gitsubmodul_test/
+rm: 无法删除'gitsubmodul_test/': 是一个目录
+leocheung@leocheung-CW65S:~/source/ikuai_gitsrc$ rm gitsubmodul_test/ -rf
+leocheung@leocheung-CW65S:~/source/ikuai_gitsrc$ cd ..
+leocheung@leocheung-CW65S:~/source$ mkdir submodule
+leocheung@leocheung-CW65S:~/source$ cd submodule/
+leocheung@leocheung-CW65S:~/source/submodule$ ls
+leocheung@leocheung-CW65S:~/source/submodule$ ls
+leocheung@leocheung-CW65S:~/source/submodule$ mkdir body
+leocheung@leocheung-CW65S:~/source/submodule$ mkdir leg
+leocheung@leocheung-CW65S:~/source/submodule$ cd body/
+leocheung@leocheung-CW65S:~/source/submodule/body$ ls
+leocheung@leocheung-CW65S:~/source/submodule/body$ echo "body 1" >> body.txt
+leocheung@leocheung-CW65S:~/source/submodule/body$ ls
+body.txt
+leocheung@leocheung-CW65S:~/source/submodule/body$ git add body.txt 
+fatal: Not a git repository (or any parent up to mount point /media/leocheung/sdb500g)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+leocheung@leocheung-CW65S:~/source/submodule/body$ git init .
+初始化空的 Git 仓库于 /media/leocheung/sdb500g/source/submodule/body/.git/
+leocheung@leocheung-CW65S:~/source/submodule/body$ git add body.txt 
+leocheung@leocheung-CW65S:~/source/submodule/body$ git commit -m "body 1"
+[master （根提交） 3d53dfe] body 1
+ 1 file changed, 1 insertion(+)
+ create mode 100644 body.txt
+leocheung@leocheung-CW65S:~/source/submodule/body$ git log --oneline 
+3d53dfe body 1
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd ..
+leocheung@leocheung-CW65S:~/source/submodule$ cd leg/
+leocheung@leocheung-CW65S:~/source/submodule/leg$ ls
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git init .
+初始化空的 Git 仓库于 /media/leocheung/sdb500g/source/submodule/leg/.git/
+leocheung@leocheung-CW65S:~/source/submodule/leg$ echo "leg 1" >> leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git add leg.txt 
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git commit -m "leg 1"
+[master （根提交） ecebaeb] leg 1
+ 1 file changed, 1 insertion(+)
+ create mode 100644 leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git log --oneline 
+ecebaeb leg 1
+leocheung@leocheung-CW65S:~/source/submodule/leg$ cd ../body/
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule add file://../leg
+正克隆到 'leg'...
+fatal: '/leg' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+fatal: 无法克隆 'file://../leg' 到子模组路径 'leg'
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule add file:../leg
+正克隆到 'leg'...
+ssh: Could not resolve hostname file: Name or service not known
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+fatal: 无法克隆 'file:../leg' 到子模组路径 'leg'
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule add file:///../leg
+正克隆到 'leg'...
+fatal: '/../leg' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+fatal: 无法克隆 'file:///../leg' 到子模组路径 'leg'
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule add ../leg
+正克隆到 'leg'...
+完成。
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s -uno
+A  .gitmodules
+A  leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ git commit -m "add submodule leg"
+[master 27bedf1] add submodule leg
+ 2 files changed, 4 insertions(+)
+ create mode 100644 .gitmodules
+ create mode 160000 leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ git log --oneline 
+27bedf1 add submodule leg
+3d53dfe body 1
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule status 
+ ecebaebc4fbc2d93c608717ba60b02d5cd1392b2 leg (heads/master)
+leocheung@leocheung-CW65S:~/source/submodule/body$ ls
+body.txt  leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ ls leg/
+leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule init 
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule status 
+ ecebaebc4fbc2d93c608717ba60b02d5cd1392b2 leg (heads/master)
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule update 
+leocheung@leocheung-CW65S:~/source/submodule/body$ ls leg/
+leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/body$ ls
+body.txt  leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd leg/
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ ls
+leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ echo "leg modify in body repository" > leg.txt 
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git status -s -uno
+ M leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git add leg.txt 
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git status -s -uno
+M  leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git commit -m "leg modify in body repository"
+[master 54bc72e] leg modify in body repository
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git log --oneline 
+54bc72e leg modify in body repository
+ecebaeb leg 1
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git cherry
++ 54bc72e6d0e663536edd599a1e64b956ef0266bf
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git push origin 
+HEAD            master          origin/HEAD     origin/master   
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git push origin 
+HEAD            master          origin/HEAD     origin/master   
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git push origin 
+warning: push.default 尚未设置，它的默认值在 Git 2.0 已从 'matching'
+变更为 'simple'。若要不再显示本信息并保持传统习惯，进行如下设置：
+
+  git config --global push.default matching
+
+若要不再显示本信息并从现在开始采用新的使用习惯，设置：
+
+  git config --global push.default simple
+
+当 push.default 设置为 'matching' 后，git 将推送和远程同名的所有
+本地分支。
+
+从 Git 2.0 开始，Git 默认采用更为保守的 'simple' 模式，只推送当前
+分支到远程关联的同名分支，即 'git push' 推送当前分支。
+
+参见 'git help config' 并查找 'push.default' 以获取更多信息。
+（'simple' 模式由 Git 1.7.11 版本引入。如果您有时要使用老版本的 Git，
+为保持兼容，请用 'current' 代替 'simple'）
+
+对象计数中: 3, 完成.
+写入对象中: 100% (3/3), 287 bytes | 0 bytes/s, 完成.
+Total 3 (delta 0), reused 0 (delta 0)
+remote: error: refusing to update checked out branch: refs/heads/master
+remote: error: By default, updating the current branch in a non-bare repository
+remote: error: is denied, because it will make the index and work tree inconsistent
+remote: error: with what you pushed, and will require 'git reset --hard' to match
+remote: error: the work tree to HEAD.
+remote: error: 
+remote: error: You can set 'receive.denyCurrentBranch' configuration variable to
+remote: error: 'ignore' or 'warn' in the remote repository to allow pushing into
+remote: error: its current branch; however, this is not recommended unless you
+remote: error: arranged to update its work tree to match what you pushed in some
+remote: error: other way.
+remote: error: 
+remote: error: To squelch this message and still keep the default behaviour, set
+remote: error: 'receive.denyCurrentBranch' configuration variable to 'refuse'.
+To /media/leocheung/sdb500g/source/submodule/leg
+ ! [remote rejected] master -> master (branch is currently checked out)
+error: 无法推送一些引用到 '/media/leocheung/sdb500g/source/submodule/leg'
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ cd ../../leg/
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git config receive.denyCurrentBranch ignore
+leocheung@leocheung-CW65S:~/source/submodule/leg$ cd -
+/home/leocheung/source/submodule/body/leg
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git push 
+warning: push.default 尚未设置，它的默认值在 Git 2.0 已从 'matching'
+变更为 'simple'。若要不再显示本信息并保持传统习惯，进行如下设置：
+
+  git config --global push.default matching
+
+若要不再显示本信息并从现在开始采用新的使用习惯，设置：
+
+  git config --global push.default simple
+
+当 push.default 设置为 'matching' 后，git 将推送和远程同名的所有
+本地分支。
+
+从 Git 2.0 开始，Git 默认采用更为保守的 'simple' 模式，只推送当前
+分支到远程关联的同名分支，即 'git push' 推送当前分支。
+
+参见 'git help config' 并查找 'push.default' 以获取更多信息。
+（'simple' 模式由 Git 1.7.11 版本引入。如果您有时要使用老版本的 Git，
+为保持兼容，请用 'current' 代替 'simple'）
+
+对象计数中: 3, 完成.
+写入对象中: 100% (3/3), 287 bytes | 0 bytes/s, 完成.
+Total 3 (delta 0), reused 0 (delta 0)
+To /media/leocheung/sdb500g/source/submodule/leg
+   ecebaeb..54bc72e  master -> master
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git status -s -uno
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git cherry
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ cd -
+/home/leocheung/source/submodule/leg
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git log --oneline 
+54bc72e leg modify in body repository
+ecebaeb leg 1
+leocheung@leocheung-CW65S:~/source/submodule/leg$ cd -
+/home/leocheung/source/submodule/body/leg
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ ls
+leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ cd ..
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s -uno
+ M leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ git diff 
+diff --git a/leg b/leg
+index ecebaeb..54bc72e 160000
+--- a/leg
++++ b/leg
+@@ -1 +1 @@
+-Subproject commit ecebaebc4fbc2d93c608717ba60b02d5cd1392b2
++Subproject commit 54bc72e6d0e663536edd599a1e64b956ef0266bf
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd leg/
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git log --oneline 
+54bc72e leg modify in body repository
+ecebaeb leg 1
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ cd ..
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s -uno
+ M leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ git add -u
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s
+M  leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ git commit -m "update submodule leg ref"
+[master 8c123e2] update submodule leg ref
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+leocheung@leocheung-CW65S:~/source/submodule/body$ git log --oneline 
+8c123e2 update submodule leg ref
+27bedf1 add submodule leg
+3d53dfe body 1
+leocheung@leocheung-CW65S:~/source/submodule/body$ git diff HEAD~ HEAD 
+diff --git a/leg b/leg
+index ecebaeb..54bc72e 160000
+--- a/leg
++++ b/leg
+@@ -1 +1 @@
+-Subproject commit ecebaebc4fbc2d93c608717ba60b02d5cd1392b2
++Subproject commit 54bc72e6d0e663536edd599a1e64b956ef0266bf
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule status 
+ 54bc72e6d0e663536edd599a1e64b956ef0266bf leg (heads/master)
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd leg/
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git pull 
+Already up-to-date.
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ cd ..
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd ../leg/
+leocheung@leocheung-CW65S:~/source/submodule/leg$ ls
+leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/leg$ echo "update leg in local" >> leg.txt 
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git diff leg.txt
+diff --git a/leg.txt b/leg.txt
+index 37b8fba..11ca7ce 100644
+--- a/leg.txt
++++ b/leg.txt
+@@ -1 +1,2 @@
+ leg 1
++update leg in local
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git add -u
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git status -s -uno
+M  leg.txt
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git commit -m "update leg in local"
+[master 123ba87] update leg in local
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+leocheung@leocheung-CW65S:~/source/submodule/leg$ git log --oneline 
+123ba87 update leg in local
+54bc72e leg modify in body repository
+ecebaeb leg 1
+leocheung@leocheung-CW65S:~/source/submodule/leg$ cd ../body/
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule status 
+ 54bc72e6d0e663536edd599a1e64b956ef0266bf leg (heads/master)
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd leg/
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git pull 
+remote: 对象计数中: 3, 完成.
+remote: Total 3 (delta 0), reused 0 (delta 0)
+展开对象中: 100% (3/3), 完成.
+来自 /media/leocheung/sdb500g/source/submodule/leg
+   54bc72e..123ba87  master     -> origin/master
+更新 54bc72e..123ba87
+Fast-forward
+ leg.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git status -s -uno
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ cd ..
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s -uno
+ M leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ git diff leg/
+diff --git a/leg b/leg
+index 54bc72e..123ba87 160000
+--- a/leg
++++ b/leg
+@@ -1 +1 @@
+-Subproject commit 54bc72e6d0e663536edd599a1e64b956ef0266bf
++Subproject commit 123ba87db97237566aec356aa418a2981f66c928
+leocheung@leocheung-CW65S:~/source/submodule/body$ git submodule update 
+子模组路径 'leg'：检出 '54bc72e6d0e663536edd599a1e64b956ef0266bf'
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s -uno
+leocheung@leocheung-CW65S:~/source/submodule/body$ git log --oneline 
+8c123e2 update submodule leg ref
+27bedf1 add submodule leg
+3d53dfe body 1
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd leg/
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git status -s -uno
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git log 
+commit 54bc72e6d0e663536edd599a1e64b956ef0266bf
+Author: Leo Cheung <lyzhang@ikuai8.com>
+Date:   Mon Oct 25 12:20:18 2021 +0800
+
+    leg modify in body repository
+
+commit ecebaebc4fbc2d93c608717ba60b02d5cd1392b2
+Author: Leo Cheung <lyzhang@ikuai8.com>
+Date:   Mon Oct 25 12:08:32 2021 +0800
+
+    leg 1
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git log --oneline 
+54bc72e leg modify in body repository
+ecebaeb leg 1
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git pull 
+您当前不在一个分支上。
+请指定您要合并哪一个分支。
+详见 git-pull(1)。
+
+    git pull <remote> <branch>
+
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git remote show
+origin
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git pull origin 
+HEAD     master   
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git pull origin master 
+来自 /media/leocheung/sdb500g/source/submodule/leg
+ * branch            master     -> FETCH_HEAD
+更新 54bc72e..123ba87
+Fast-forward
+ leg.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ git status -s -uno
+leocheung@leocheung-CW65S:~/source/submodule/body/leg$ cd ..
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s -uno
+ M leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ git diff 
+diff --git a/leg b/leg
+index 54bc72e..123ba87 160000
+--- a/leg
++++ b/leg
+@@ -1 +1 @@
+-Subproject commit 54bc72e6d0e663536edd599a1e64b956ef0266bf
++Subproject commit 123ba87db97237566aec356aa418a2981f66c928
+leocheung@leocheung-CW65S:~/source/submodule/body$ git commit -m "update leg for leg local"
+位于分支 master
+尚未暂存以备提交的变更：
+	修改：     leg (新提交)
+
+修改尚未加入提交
+leocheung@leocheung-CW65S:~/source/submodule/body$ git add -u
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s -uno
+M  leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ git commit -m "update leg for leg local"
+[master dc5809c] update leg for leg local
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+leocheung@leocheung-CW65S:~/source/submodule/body$ git status -s -uno
+leocheung@leocheung-CW65S:~/source/submodule/body$ git log --oneline 
+dc5809c update leg for leg local
+8c123e2 update submodule leg ref
+27bedf1 add submodule leg
+3d53dfe body 1
+leocheung@leocheung-CW65S:~/source/submodule/body$ git diff HEAD~ HEAD 
+diff --git a/leg b/leg
+index 54bc72e..123ba87 160000
+--- a/leg
++++ b/leg
+@@ -1 +1 @@
+-Subproject commit 54bc72e6d0e663536edd599a1e64b956ef0266bf
++Subproject commit 123ba87db97237566aec356aa418a2981f66c928
+leocheung@leocheung-CW65S:~/source/submodule/body$ git diff HEAD~2 HEAD~
+diff --git a/leg b/leg
+index ecebaeb..54bc72e 160000
+--- a/leg
++++ b/leg
+@@ -1 +1 @@
+-Subproject commit ecebaebc4fbc2d93c608717ba60b02d5cd1392b2
++Subproject commit 54bc72e6d0e663536edd599a1e64b956ef0266bf
+leocheung@leocheung-CW65S:~/source/submodule/body$ git diff HEAD~3 HEAD~2
+diff --git a/.gitmodules b/.gitmodules
+new file mode 100644
+index 0000000..7625595
+--- /dev/null
++++ b/.gitmodules
+@@ -0,0 +1,3 @@
++[submodule "leg"]
++       path = leg
++       url = ../leg
+diff --git a/leg b/leg
+new file mode 160000
+index 0000000..ecebaeb
+--- /dev/null
++++ b/leg
+@@ -0,0 +1 @@
++Subproject commit ecebaebc4fbc2d93c608717ba60b02d5cd1392b2
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd ..
+leocheung@leocheung-CW65S:~/source/submodule$ ls
+body  leg
+leocheung@leocheung-CW65S:~/source/submodule$ git init .
+初始化空的 Git 仓库于 /media/leocheung/sdb500g/source/submodule/.git/
+leocheung@leocheung-CW65S:~/source/submodule$ ls
+body  leg
+leocheung@leocheung-CW65S:~/source/submodule$ git add .
+leocheung@leocheung-CW65S:~/source/submodule$ git status -s -uno
+A  body
+A  leg
+leocheung@leocheung-CW65S:~/source/submodule$ git commit -m "submodule init"
+[master （根提交） a30e363] submodule init
+ 2 files changed, 2 insertions(+)
+ create mode 160000 body
+ create mode 160000 leg
+leocheung@leocheung-CW65S:~/source/submodule$ cd body/
+leocheung@leocheung-CW65S:~/source/submodule/body$ ls
+body.txt  leg
+leocheung@leocheung-CW65S:~/source/submodule/body$ cd ..
+
+eocheung@leocheung-CW65S:~/source/submodule$ tar -cvf submodule.tar dody/ leg/
+tar: dody：无法 stat: 没有那个文件或目录
+leg/
+leg/leg.txt
+leg/.git/
+leg/.git/hooks/
+leg/.git/hooks/applypatch-msg.sample
+leg/.git/hooks/commit-msg.sample
+leg/.git/hooks/prepare-commit-msg.sample
+leg/.git/hooks/pre-push.sample
+leg/.git/hooks/pre-applypatch.sample
+leg/.git/hooks/post-update.sample
+leg/.git/hooks/pre-rebase.sample
+leg/.git/hooks/pre-commit.sample
+leg/.git/hooks/update.sample
+leg/.git/index
+leg/.git/refs/
+leg/.git/refs/tags/
+leg/.git/refs/heads/
+leg/.git/refs/heads/master
+leg/.git/objects/
+leg/.git/objects/01/
+leg/.git/objects/01/d3b0576075c2311909a55dba4cc7f76a0c8155
+leg/.git/objects/ec/
+leg/.git/objects/ec/ebaebc4fbc2d93c608717ba60b02d5cd1392b2
+leg/.git/objects/12/
+leg/.git/objects/12/3ba87db97237566aec356aa418a2981f66c928
+leg/.git/objects/pack/
+leg/.git/objects/54/
+leg/.git/objects/54/bc72e6d0e663536edd599a1e64b956ef0266bf
+leg/.git/objects/37/
+leg/.git/objects/37/b8fba5cd4e75c9b84495195b393885bc1a159a
+leg/.git/objects/info/
+leg/.git/objects/c8/
+leg/.git/objects/c8/d47d885d4291b7353c93a1ec7e7186402c5039
+leg/.git/objects/6b/
+leg/.git/objects/6b/e8313b2867c3ca159b19b7fb5e568d9617678f
+leg/.git/objects/11/
+leg/.git/objects/11/ca7ce23c0ce14bbeee3abedf95072400628b9f
+leg/.git/objects/1e/
+leg/.git/objects/1e/b46c16c956b20cb660234bc6d7dd8c0dc23297
+leg/.git/description
+leg/.git/COMMIT_EDITMSG
+leg/.git/config
+leg/.git/info/
+leg/.git/info/exclude
+leg/.git/branches/
+leg/.git/HEAD
+leg/.git/logs/
+leg/.git/logs/refs/
+leg/.git/logs/refs/heads/
+leg/.git/logs/refs/heads/master
+leg/.git/logs/HEAD
+tar: 由于前次错误，将以上次的错误状态退出
+leocheung@leocheung-CW65S:~/source/submodule$ ls
+body  leg  submodule.tar
+leocheung@leocheung-CW65S:~/source/submodule$ tar -tvf submodule.tar 
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/
+-rw-r--r-- leocheung/root   26 2021-10-25 12:24 leg/leg.txt
+drwxr-xr-x leocheung/root    0 2021-10-25 12:29 leg/.git/
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/hooks/
+-rwxr-xr-x leocheung/root  478 2021-10-25 12:08 leg/.git/hooks/applypatch-msg.sample
+-rwxr-xr-x leocheung/root  896 2021-10-25 12:08 leg/.git/hooks/commit-msg.sample
+-rwxr-xr-x leocheung/root 1239 2021-10-25 12:08 leg/.git/hooks/prepare-commit-msg.sample
+-rwxr-xr-x leocheung/root 1348 2021-10-25 12:08 leg/.git/hooks/pre-push.sample
+-rwxr-xr-x leocheung/root  424 2021-10-25 12:08 leg/.git/hooks/pre-applypatch.sample
+-rwxr-xr-x leocheung/root  189 2021-10-25 12:08 leg/.git/hooks/post-update.sample
+-rwxr-xr-x leocheung/root 4898 2021-10-25 12:08 leg/.git/hooks/pre-rebase.sample
+-rwxr-xr-x leocheung/root 1642 2021-10-25 12:08 leg/.git/hooks/pre-commit.sample
+-rwxr-xr-x leocheung/root 3610 2021-10-25 12:08 leg/.git/hooks/update.sample
+-rw-r--r-- leocheung/root  137 2021-10-25 12:25 leg/.git/index
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/refs/
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/refs/tags/
+drwxr-xr-x leocheung/root    0 2021-10-25 12:25 leg/.git/refs/heads/
+-rw-r--r-- leocheung/root   41 2021-10-25 12:25 leg/.git/refs/heads/master
+drwxr-xr-x leocheung/root    0 2021-10-25 12:25 leg/.git/objects/
+drwxr-xr-x leocheung/root    0 2021-10-25 12:20 leg/.git/objects/01/
+-r--r--r-- leocheung/root   52 2021-10-25 12:22 leg/.git/objects/01/d3b0576075c2311909a55dba4cc7f76a0c8155
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/objects/ec/
+-r--r--r-- leocheung/root  127 2021-10-25 12:08 leg/.git/objects/ec/ebaebc4fbc2d93c608717ba60b02d5cd1392b2
+drwxr-xr-x leocheung/root    0 2021-10-25 12:25 leg/.git/objects/12/
+-r--r--r-- leocheung/root  167 2021-10-25 12:25 leg/.git/objects/12/3ba87db97237566aec356aa418a2981f66c928
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/objects/pack/
+drwxr-xr-x leocheung/root    0 2021-10-25 12:20 leg/.git/objects/54/
+-r--r--r-- leocheung/root  176 2021-10-25 12:22 leg/.git/objects/54/bc72e6d0e663536edd599a1e64b956ef0266bf
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/objects/37/
+-r--r--r-- leocheung/root   21 2021-10-25 12:08 leg/.git/objects/37/b8fba5cd4e75c9b84495195b393885bc1a159a
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/objects/info/
+drwxr-xr-x leocheung/root    0 2021-10-25 12:20 leg/.git/objects/c8/
+-r--r--r-- leocheung/root   46 2021-10-25 12:22 leg/.git/objects/c8/d47d885d4291b7353c93a1ec7e7186402c5039
+drwxr-xr-x leocheung/root    0 2021-10-25 12:25 leg/.git/objects/6b/
+-r--r--r-- leocheung/root   52 2021-10-25 12:25 leg/.git/objects/6b/e8313b2867c3ca159b19b7fb5e568d9617678f
+drwxr-xr-x leocheung/root    0 2021-10-25 12:24 leg/.git/objects/11/
+-r--r--r-- leocheung/root   39 2021-10-25 12:24 leg/.git/objects/11/ca7ce23c0ce14bbeee3abedf95072400628b9f
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/objects/1e/
+-r--r--r-- leocheung/root   52 2021-10-25 12:08 leg/.git/objects/1e/b46c16c956b20cb660234bc6d7dd8c0dc23297
+-rw-r--r-- leocheung/root   73 2021-10-25 12:08 leg/.git/description
+-rw-r--r-- leocheung/root   20 2021-10-25 12:25 leg/.git/COMMIT_EDITMSG
+-rw-r--r-- leocheung/root  130 2021-10-25 12:22 leg/.git/config
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/info/
+-rw-r--r-- leocheung/root  240 2021-10-25 12:08 leg/.git/info/exclude
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/branches/
+-rw-r--r-- leocheung/root   23 2021-10-25 12:08 leg/.git/HEAD
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/logs/
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/logs/refs/
+drwxr-xr-x leocheung/root    0 2021-10-25 12:08 leg/.git/logs/refs/heads/
+-rw-r--r-- leocheung/root  450 2021-10-25 12:25 leg/.git/logs/refs/heads/master
+-rw-r--r-- leocheung/root  450 2021-10-25 12:25 leg/.git/logs/HEAD
+leocheung@leocheung-CW65S:~/source/submodule$ ls
+body  leg  submodule.tar
+
